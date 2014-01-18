@@ -1,6 +1,14 @@
 // Package stack implements LIFO data structure.
 package stack
 
+import (
+	"errors"
+)
+
+var (
+	ErrStackIsEmpty = errors.New("stack: stack is empty")
+)
+
 type node struct {
 	data int
 	back *node
@@ -14,23 +22,18 @@ func NewStack() *Stack {
 	return &Stack{}
 }
 
-func (stack *Stack) IsEmpty() bool {
-	return stack.node == nil
-}
-
-func (stack *Stack) Push(data int) {
-	stack.node = &node{data, stack.node}
-}
-
-func (stack *Stack) Pop() int {
-	if stack.IsEmpty() {
-		return 0
+// Pop removes and returns the data at the top of the stack. Returns
+// ErrStackIsEmpty if stack is empty.
+func (stack *Stack) Pop() (int, error) {
+	if stack.node == nil {
+		return 0, ErrStackIsEmpty
 	}
 	data := stack.node.data
 	stack.node = stack.node.back
-	return data
+	return data, nil
 }
 
-func (stack *Stack) Top() *int {
-	return &stack.node.data
+// Push pushes a data at the top of the stack.
+func (stack *Stack) Push(data int) {
+	stack.node = &node{data, stack.node}
 }

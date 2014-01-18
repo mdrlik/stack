@@ -6,36 +6,36 @@ import (
 
 func TestStack(t *testing.T) {
 	stack := NewStack()
-	if !stack.IsEmpty() {
-		t.Fatal("expected IsEmpty: true, got false")
+	_, err := stack.Pop()
+	if err != ErrStackIsEmpty {
+		t.Fatalf("expected error %v, got %v", ErrStackIsEmpty, err)
 	}
 	stack.Push(0)
-	if stack.IsEmpty() {
-		t.Fatal("expected IsEmpty: false, got true")
+	data, err := stack.Pop()
+	if err != nil {
+		t.Fatal("unexpected error", err)
 	}
-	data := stack.Pop()
 	if data != 0 {
-		t.Fatalf("expected data: 0, got %v", data)
+		t.Fatalf("expected data 0, got %v", data)
 	}
-	stack.Push(3)
-	*stack.Top() += 2
-	data = *stack.Top()
-	if data != 5 {
-		t.Fatalf("expected data: 5, got %v", data)
+	_, err = stack.Pop()
+	if err == nil || err != ErrStackIsEmpty {
+		t.Fatalf("expected error %v, got %v", ErrStackIsEmpty, err)
 	}
-	stack = NewStack()
-	stack.Push(3)
 	stack.Push(5)
-	data1 := stack.Pop()
-	data2 := stack.Pop()
-	if data1 != 5 {
-		t.Fatalf("expected data: 5, got %v", data1)
+	stack.Push(6)
+	data1, err := stack.Pop()
+	if err != nil {
+		t.Fatal("unexpected error", err)
 	}
-	if data2 != 3 {
-		t.Fatalf("expected data: 3, got %v", data2)
+	if data1 != 6 {
+		t.Fatalf("expected data1 6, got %v", data1)
 	}
-	data = stack.Pop()
-	if data != 0 {
-		t.Fatalf("expected data 0 for empty stack, got %v", data)
+	data2, err := stack.Pop()
+	if err != nil {
+		t.Fatal("unexpected error", err)
+	}
+	if data2 != 5 {
+		t.Fatalf("expected data2 5, got %v", data2)
 	}
 }
