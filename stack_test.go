@@ -34,4 +34,8 @@ func TestStack(t *testing.T) {
 	if data2 != 3 {
 		t.Fatalf("expected data: 3, got %v", data2)
 	}
+	data = stack.Pop()
+	if data != 0 {
+		t.Fatalf("expected data 0 for empty stack, got %v", data)
+	}
 }

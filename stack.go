@@ -23,6 +23,9 @@ func (stack *Stack) Push(data int) {
 }
 
 func (stack *Stack) Pop() int {
+	if stack.IsEmpty() {
+		return 0
+	}
 	data := stack.node.data
 	stack.node = stack.node.back
 	return data
