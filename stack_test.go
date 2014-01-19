@@ -19,7 +19,7 @@ func TestStack(t *testing.T) {
 		t.Fatalf("expected data 0, got %v", data)
 	}
 	_, err = stack.Pop()
-	if err == nil || err != ErrStackIsEmpty {
+	if err != ErrStackIsEmpty {
 		t.Fatalf("expected error %v, got %v", ErrStackIsEmpty, err)
 	}
 	stack.Push(5)
